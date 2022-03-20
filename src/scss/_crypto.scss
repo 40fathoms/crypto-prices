@@ -1,0 +1,141 @@
+.coins{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    padding: 2rem 0.5rem;
+
+    //width: 700px;
+
+    font-size: 0.8rem;
+
+    @include breakpoint-up(large){
+        font-size: 1.1rem;
+    }
+}
+
+
+.tableHeader{
+    padding: 0 0.5rem;
+    font-weight: 700;
+    
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: 2fr 1.5fr;
+    grid-template-areas: 
+    "header-name header-mcap" 
+    "header-name header-price";
+    gap: 0.5rem;
+
+    @include breakpoint-up(large){
+        grid-template-columns: auto 3fr 1fr 1fr;
+        grid-template-areas: 
+        "header-rank header-name header-mcap header-price";
+        gap: 1.5rem;
+    }
+
+    &-rank{
+        grid-area: header-rank;
+    }
+
+    &-name{
+        grid-area: header-name;
+        justify-self: start;
+        padding-left: 1rem;
+    }
+
+    &-mcap{
+        justify-self: end;
+        grid-area: header-mcap;
+    }
+
+    &-price{
+        justify-self: end;
+        grid-area: header-price;
+    }
+}
+
+.coin{
+    width: 100%;
+    padding: 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    border: 1px solid black;
+    border-radius: 0.5rem;
+
+    &:hover{
+        cursor: pointer;
+    }
+
+    &.details-visible{
+        background-color: rgb(40, 51, 56);
+        color: white;
+    }
+
+    &-content{
+
+        display: grid;
+        justify-items: start;
+        align-items: center;
+        grid-template-columns: 0.2fr auto auto;
+        grid-template-areas: 
+        "icon name mcap"
+        "icon rank price";
+        gap: 1rem;
+
+        @include breakpoint-up(large){
+            grid-template-columns: 0.2fr auto 3fr 1fr 1fr;
+            grid-template-areas: "rank icon name mcap price";
+        }
+
+        &-rank{
+            justify-self: start;
+            grid-area: rank;
+
+            @include breakpoint-up(large){
+                justify-self: center;
+            }
+        }
+
+        &-icon{
+            grid-area: icon;
+            width: 30px;
+            height: 30px;
+        }
+    
+        &-name{
+            grid-area: name;
+            flex: 3;
+
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: start;
+            gap: 0.8rem;
+        }
+    
+        &-mcap{
+            justify-self: end;
+            grid-area: mcap;
+        }
+    
+        &-price{
+            justify-self: end;
+            grid-area: price;
+        }
+    }
+
+    &-details{
+        display: none;
+        grid-area: details;
+        line-height: 1.9;
+
+        &.details-visible{
+            display: block;
+        }
+    }
+}

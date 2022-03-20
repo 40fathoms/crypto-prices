@@ -1,13 +1,243 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap");
+@media (max-width: 59.3125em) {
+  .hide-for-mobile {
+    display: none;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@media (min-width: 59.375rem) {
+  .hide-for-desktop {
+    display: none;
+  }
 }
+
+html {
+  font-size: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+a, a:visited, a:hover {
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+p {
+  margin: 0;
+}
+
+.coins {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 2rem;
+  padding: 2rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+@media (min-width: 59.375rem) {
+  .coins {
+    font-size: 1.1rem;
+  }
+}
+
+.tableHeader {
+  padding: 0 0.5rem;
+  font-weight: 700;
+  display: -ms-grid;
+  display: grid;
+  justify-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-columns: 2fr 1.5fr;
+      grid-template-columns: 2fr 1.5fr;
+      grid-template-areas: "header-name header-mcap"  "header-name header-price";
+  gap: 0.5rem;
+}
+
+@media (min-width: 59.375rem) {
+  .tableHeader {
+    -ms-grid-columns: auto 3fr 1fr 1fr;
+        grid-template-columns: auto 3fr 1fr 1fr;
+        grid-template-areas: "header-rank header-name header-mcap header-price";
+    gap: 1.5rem;
+  }
+}
+
+.tableHeader-rank {
+  grid-area: header-rank;
+}
+
+.tableHeader-name {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 1;
+  grid-area: header-name;
+  -ms-grid-column-align: start;
+      justify-self: start;
+  padding-left: 1rem;
+}
+
+.tableHeader-mcap {
+  -ms-grid-column-align: end;
+      justify-self: end;
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: header-mcap;
+}
+
+.tableHeader-price {
+  -ms-grid-column-align: end;
+      justify-self: end;
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  grid-area: header-price;
+}
+
+.coin {
+  width: 100%;
+  padding: 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1.5rem;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+}
+
+.coin:hover {
+  cursor: pointer;
+}
+
+.coin.details-visible {
+  background-color: #283338;
+  color: white;
+}
+
+.coin-content {
+  display: -ms-grid;
+  display: grid;
+  justify-items: start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-grid-columns: 0.2fr auto auto;
+      grid-template-columns: 0.2fr auto auto;
+      grid-template-areas: "icon name mcap" "icon rank price";
+  gap: 1rem;
+}
+
+@media (min-width: 59.375rem) {
+  .coin-content {
+    -ms-grid-columns: 0.2fr auto 3fr 1fr 1fr;
+        grid-template-columns: 0.2fr auto 3fr 1fr 1fr;
+        grid-template-areas: "rank icon name mcap price";
+  }
+}
+
+.coin-content-rank {
+  -ms-grid-column-align: start;
+      justify-self: start;
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  grid-area: rank;
+}
+
+@media (min-width: 59.375rem) {
+  .coin-content-rank {
+    -ms-grid-column-align: center;
+        justify-self: center;
+  }
+}
+
+.coin-content-icon {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 1;
+  grid-area: icon;
+  width: 30px;
+  height: 30px;
+}
+
+.coin-content-name {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: name;
+  -webkit-box-flex: 3;
+      -ms-flex: 3;
+          flex: 3;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  gap: 0.8rem;
+}
+
+.coin-content-mcap {
+  -ms-grid-column-align: end;
+      justify-self: end;
+  -ms-grid-row: 1;
+  -ms-grid-column: 3;
+  grid-area: mcap;
+}
+
+.coin-content-price {
+  -ms-grid-column-align: end;
+      justify-self: end;
+  -ms-grid-row: 2;
+  -ms-grid-column: 3;
+  grid-area: price;
+}
+
+.coin-details {
+  display: none;
+  grid-area: details;
+  line-height: 1.9;
+}
+
+.coin-details.details-visible {
+  display: block;
+}
+
+main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 2rem;
+}
+/*# sourceMappingURL=index.css.map */
