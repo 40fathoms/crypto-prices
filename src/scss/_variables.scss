@@ -1,10 +1,11 @@
 //Colors
-$primary-color: #8b62fc;
-$secondary-color: darken($primary-color, 50%);
-
-
-//Font Sizes
-$font-small: 0.875rem; //14px/16 = 0.875rem
-$font-med: 1.125rem; // 18px/16 = 1.125rem
-$font-lg: 1.25rem; //20px/16 = 1.25rem
-$font-xlg: 3.25rem; // 52px/16 = 3.25rem
+$xiketic: #171123;
+$white: #EEE5E9;
+$russian-violet: #372248;
+$purple-navy: #414770;
+$steel-blue: #5B85AA;
+$portland-orange: #F46036;
+$lighter-xiketic: lighten($xiketic, 85%);
+$lighter-purple-navy: lighten($purple-navy, 60%);
+$lighter-steel-blue: lighten($steel-blue, 30%);
+$lighter-portland-orange: lighten($portland-orange, 30%);

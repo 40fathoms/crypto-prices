@@ -14,6 +14,12 @@
     }
 }
 
+.coins-instructions{
+    margin: auto;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $xiketic;
+    text-align: center;
+}
 
 .tableHeader{
     padding: 0 0.5rem;
@@ -58,22 +64,29 @@
 
 .coin{
     width: 100%;
-    padding: 0.5rem;
+    padding: 1rem 0.5rem;
 
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-
-    border: 1px solid black;
+ 
     border-radius: 0.5rem;
+    border: solid 2px $russian-violet;
+
+    background-color: $lighter-purple-navy;
+    color: $xiketic;
+    
+    transition: 0.2s;
 
     &:hover{
-        cursor: pointer;
+        cursor: pointer; 
+        background-color: $lighter-steel-blue;
     }
 
     &.details-visible{
-        background-color: rgb(40, 51, 56);
-        color: white;
+        background-color: $purple-navy;
+        color: $lighter-purple-navy;
+        border: solid 2px $steel-blue;
     }
 
     &-content{
@@ -133,6 +146,11 @@
         display: none;
         grid-area: details;
         line-height: 1.9;
+
+        ul{
+            list-style-type: none;
+            margin: 0;
+        }
 
         &.details-visible{
             display: block;

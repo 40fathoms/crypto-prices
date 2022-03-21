@@ -1,11 +1,36 @@
 import React from 'react'
+import { Route, Routes } from 'react-router-dom'
 import { nanoid } from 'nanoid'
 
+import Navbar from './components/Navbar'
 import Crypto from './components/Crypto'
+import Wallet from './components/Wallet'
 
 function App() {
 
+  // state to handle the current crypto chart
   const [crypto, setCrypto] = React.useState([{}])
+
+  // state to handle the wallet
+  const [wallet, setWallet] = React.useState([
+    {
+      name: "Bitcoin",
+      symbol: "BTC",
+      icon: "https://static.coinstats.app/coins/Bitcoin6l39t.png",
+      id: "bitcoin",
+      amount: "1.46"
+    },
+
+    {
+      name: "Ethereum",
+      symbol: "ETH",
+      icon: "https://static.coinstats.app/coins/EthereumOCjgD.png",
+      id: "ethereum",
+      amount: "0.97"
+    }
+
+  ])
+  //console.log(crypto)
 
   // function to convert big numbers into shorter strings
   function abbreviateNumber(num, fixed) {
@@ -48,8 +73,6 @@ function App() {
 
 
 
-  console.log(crypto)
-
   const cryptocurrencies = crypto.map(coin => {
     return (
       <Crypto
@@ -70,29 +93,43 @@ function App() {
     )
   })
 
-
-
-
   return (
     <main>
 
-      <section className="coins">
+      <Navbar />
 
-        <div className="tableHeader">
-          <p className="tableHeader-rank hide-for-mobile">Rank</p>
+      <Routes>
 
-          <p className="tableHeader-name">Assets</p>
+        <Route path="/" element={
+          <section className="coins">
 
-          <p className="tableHeader-mcap">Market Cap</p>
+            <p className="coins-instructions">Select an asset to display more details.</p>
 
-          <p className="tableHeader-price">Price</p>
-        </div>
+            <div className="tableHeader">
+              <p className="tableHeader-rank hide-for-mobile">Rank</p>
 
-        {cryptocurrencies}
+              <p className="tableHeader-name">Assets</p>
 
-      </section>
+              <p className="tableHeader-mcap">Market Cap</p>
 
+              <p className="tableHeader-price">Price</p>
+            </div>
 
+            {cryptocurrencies}
+
+          </section>
+        }
+        />
+
+        <Route path="/wallet" element={
+          <Wallet
+            crypto={crypto}
+            wallet={wallet}
+          />
+        }
+        />
+
+      </Routes>
 
     </main>
   );

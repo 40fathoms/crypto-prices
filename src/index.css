@@ -29,6 +29,7 @@ a, a:visited, a:hover {
 body {
   margin: 0;
   font-family: 'JetBrains Mono', monospace;
+  background-color: #f1eff7;
 }
 
 p {
@@ -52,6 +53,13 @@ p {
   .coins {
     font-size: 1.1rem;
   }
+}
+
+.coins-instructions {
+  margin: auto;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #171123;
+  text-align: center;
 }
 
 .tableHeader {
@@ -110,7 +118,7 @@ p {
 
 .coin {
   width: 100%;
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -119,17 +127,23 @@ p {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 1.5rem;
-  border: 1px solid black;
   border-radius: 0.5rem;
+  border: solid 2px #372248;
+  background-color: #eeeff5;
+  color: #171123;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 
 .coin:hover {
   cursor: pointer;
+  background-color: #c0d0de;
 }
 
 .coin.details-visible {
-  background-color: #283338;
-  color: white;
+  background-color: #414770;
+  color: #eeeff5;
+  border: solid 2px #5B85AA;
 }
 
 .coin-content {
@@ -220,8 +234,75 @@ p {
   line-height: 1.9;
 }
 
+.coin-details ul {
+  list-style-type: none;
+  margin: 0;
+}
+
 .coin-details.details-visible {
   display: block;
+}
+
+.wallet-portfolio {
+  text-align: center;
+}
+
+.wallet-coins {
+  width: 100%;
+  padding: 1rem 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 1.5rem;
+}
+
+.wallet-coin {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 3fr;
+      grid-template-columns: 1fr 3fr;
+      grid-template-areas: "icon amount" "icon usd";
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  justify-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  border-radius: 0.5rem;
+  border: solid 2px #372248;
+  background-color: #eeeff5;
+  color: #171123;
+  width: 100%;
+}
+
+.wallet-coin-icon {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 1;
+  grid-area: icon;
+  width: 40px;
+  height: 40px;
+}
+
+.wallet-coin-amount {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: amount;
+  color: #5B85AA;
+}
+
+.wallet-coin-usd {
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  grid-area: usd;
+  font-weight: 700;
 }
 
 main {
@@ -239,5 +320,47 @@ main {
       -ms-flex-pack: center;
           justify-content: center;
   gap: 2rem;
+}
+
+.nav-buttons {
+  padding: 2rem 0 0 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 3rem;
+}
+
+.nav-buttons button {
+  font-family: 'JetBrains Mono', monospace;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background-color: transparent;
+  color: #372248;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+@media (min-width: 59.375rem) {
+  .nav-buttons button {
+    font-size: 1.2rem;
+  }
+}
+
+.nav-buttons button.selected {
+  color: #F46036;
+  border-bottom: 3px solid #F46036;
+}
+
+.nav-buttons button:hover:not(.selected) {
+  cursor: pointer;
+  color: #5B85AA;
+  border-bottom: 3px solid #5B85AA;
 }
 /*# sourceMappingURL=index.css.map */

@@ -3,6 +3,7 @@
 
 @import "config";
 @import "crypto";
+@import "wallet";
 
 main{
     display: flex;
@@ -10,4 +11,42 @@ main{
     align-items: center;
     justify-content: center;
     gap: 2rem;
+}
+
+.nav-buttons{
+
+    padding: 2rem 0 0 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+
+    button{
+        font-family: 'JetBrains Mono', monospace;
+        border: none;
+        border-bottom: 3px solid transparent;
+        background-color: transparent;
+        color: $russian-violet;
+
+        font-weight: 700;
+        font-size: 0.9rem;
+
+        padding: 0;
+
+        @include breakpoint-up(large){
+            font-size: 1.2rem;
+        }
+
+        &.selected{
+            color: $portland-orange;
+            border-bottom: 3px solid $portland-orange;
+        }
+
+        &:hover:not(.selected){
+            cursor: pointer;
+            color: $steel-blue;
+            border-bottom: 3px solid $steel-blue;
+        }
+    }
 }
