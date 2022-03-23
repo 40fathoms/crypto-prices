@@ -2,52 +2,27 @@ import React from 'react'
 
 const Wallet = (props) => {
 
-  // function to calculate the portfolio's value
-  function valuePortfolio(wallet, crypto){
-    if(crypto[0].name === undefined){
-      return 0
-    }
-
-    let portfolio = 0
-    wallet.map(walletItem => {
-      return crypto.map(item => {
-        return (item.id === walletItem.id) ?
-        portfolio+=(item.price*walletItem.amount) : portfolio+=0
-      })
-    })
-
-    return portfolio.toFixed(4)
-  }
-
-  // function to calculate the value of any amount of an individual crypto
-  function valueIndividualCoin(id, amount, crypto){ 
-    if(crypto[0].name === undefined){
-      return 0
-    }
-
-    // Gathers the price of the "id" (bitcoin, ethereum, etc)
-    let currentCoinPrice = crypto.filter(item => item.id === id)[0].price
-    // Returns how many dollars the amount of "id" is worth
-    return currentCoinPrice*amount
-  }
-
   // generating each crypto element in the wallet
-  const walletCoins = props.wallet.map(item => {
+
+  const walletKeys = Object.keys(props.wallet)
+
+  const walletCoins = walletKeys.map(key => {
     return (
       <div className="wallet-coin">
-        <img className="wallet-coin-icon" src={item.icon} alt="" />
-        <p className="wallet-coin-amount">{item.amount} {item.name}</p>
+        <img className="wallet-coin-icon" src={props.wallet[key].icon} alt="" />
+        <p className="wallet-coin-amount">{props.wallet[key].amount} {props.wallet[key].name}</p>
         <p className="wallet-coin-usd">
-          ${valueIndividualCoin(item.id, item.amount, props.crypto)}
+          ${props.valueIndividualCoin(props.wallet[key].id, props.wallet[key].amount, 0, props.crypto).toFixed(4)}
         </p>
       </div>
     )
   })
 
+
   return (
     <section className="wallet">
       <h2 className="wallet-portfolio">
-        Portfolio: ${valuePortfolio(props.wallet, props.crypto)}
+        Portfolio Value: ${props.valuePortfolio(props.wallet, props.crypto)}
       </h2>
 
       <div className="wallet-coins">

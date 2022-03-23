@@ -4,6 +4,7 @@
 @import "config";
 @import "crypto";
 @import "wallet";
+@import "swap";
 
 main{
     display: flex;
@@ -11,6 +12,7 @@ main{
     align-items: center;
     justify-content: center;
     gap: 2rem;
+    margin-bottom: 1rem;
 }
 
 .nav-buttons{
@@ -18,9 +20,15 @@ main{
     padding: 2rem 0 0 0;
 
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    gap: 3rem;
+    gap: 1rem;
+
+    @include breakpoint-up(medium){
+        flex-direction: row;
+        gap: 3rem;
+    }
 
     button{
         font-family: 'JetBrains Mono', monospace;

@@ -22,6 +22,10 @@ const Navbar = () => {
                 onClick={() => navigate(`/wallet`)}
                 className={selectedStyle((location.pathname === "/wallet"))}
             >Wallet</button>
+            <button
+                onClick={() => navigate(`/swap`)}
+                className={selectedStyle((location.pathname === "/swap"))}
+            >Swap</button>
         </nav>
     )
 }

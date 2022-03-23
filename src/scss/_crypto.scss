@@ -5,8 +5,6 @@
 
     padding: 2rem 0.5rem;
 
-    //width: 700px;
-
     font-size: 0.8rem;
 
     @include breakpoint-up(large){
@@ -47,17 +45,17 @@
 
     &-name{
         grid-area: header-name;
-        justify-self: start;
+        justify-self: flex-start;
         padding-left: 1rem;
     }
 
     &-mcap{
-        justify-self: end;
+        justify-self: flex-end;
         grid-area: header-mcap;
     }
 
     &-price{
-        justify-self: end;
+        justify-self: flex-end;
         grid-area: header-price;
     }
 }
@@ -92,7 +90,7 @@
     &-content{
 
         display: grid;
-        justify-items: start;
+        justify-items: flex-start;
         align-items: center;
         grid-template-columns: 0.2fr auto auto;
         grid-template-areas: 
@@ -106,7 +104,7 @@
         }
 
         &-rank{
-            justify-self: start;
+            justify-self: flex-start;
             grid-area: rank;
 
             @include breakpoint-up(large){
@@ -127,7 +125,7 @@
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            justify-content: start;
+            justify-content: flex-start;
             gap: 0.8rem;
         }
     

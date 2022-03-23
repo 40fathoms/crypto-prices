@@ -95,22 +95,19 @@ p {
   -ms-grid-row-span: 2;
   -ms-grid-column: 1;
   grid-area: header-name;
-  -ms-grid-column-align: start;
-      justify-self: start;
+  justify-self: flex-start;
   padding-left: 1rem;
 }
 
 .tableHeader-mcap {
-  -ms-grid-column-align: end;
-      justify-self: end;
+  justify-self: flex-end;
   -ms-grid-row: 1;
   -ms-grid-column: 2;
   grid-area: header-mcap;
 }
 
 .tableHeader-price {
-  -ms-grid-column-align: end;
-      justify-self: end;
+  justify-self: flex-end;
   -ms-grid-row: 2;
   -ms-grid-column: 2;
   grid-area: header-price;
@@ -149,7 +146,7 @@ p {
 .coin-content {
   display: -ms-grid;
   display: grid;
-  justify-items: start;
+  justify-items: flex-start;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -168,8 +165,7 @@ p {
 }
 
 .coin-content-rank {
-  -ms-grid-column-align: start;
-      justify-self: start;
+  justify-self: flex-start;
   -ms-grid-row: 2;
   -ms-grid-column: 2;
   grid-area: rank;
@@ -208,7 +204,7 @@ p {
           align-items: center;
   -webkit-box-pack: start;
       -ms-flex-pack: start;
-          justify-content: start;
+          justify-content: flex-start;
   gap: 0.8rem;
 }
 
@@ -305,6 +301,225 @@ p {
   font-weight: 700;
 }
 
+.swap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 2rem;
+  width: 95%;
+  max-width: 800px;
+}
+
+@media (min-width: 59.375rem) {
+  .swap {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+}
+
+.swap-trade {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 1rem;
+  width: 95%;
+  -webkit-box-flex: 1.5;
+      -ms-flex: 1.5;
+          flex: 1.5;
+}
+
+.swap-trade .swap-select {
+  width: 100%;
+  color: #171123;
+  z-index: 2;
+}
+
+.swap-trade-sell .swap-select {
+  z-index: 3;
+}
+
+.swap-trade-sell, .swap-trade-buy {
+  width: 100%;
+  border-radius: 0.5rem;
+  background-color: #c0d0de;
+  color: #171123;
+  border: solid 2px #5B85AA;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 1rem;
+  padding: 1rem 0.5rem;
+}
+
+.swap-trade-sell h2, .swap-trade-buy h2 {
+  margin: 0;
+}
+
+.swap-trade-sell input, .swap-trade-buy input {
+  width: 100%;
+  background-color: #eeeff5;
+  color: #171123;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.swap-trade-sell h3, .swap-trade-buy h3 {
+  margin: 0;
+}
+
+.swap-trade-sell p, .swap-trade-buy p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.swap-trade-confirm {
+  position: relative;
+  width: 200px;
+}
+
+.swap-trade-confirm-button {
+  border-radius: 0.5rem;
+  border: solid 2px #372248;
+  background-color: #414770;
+  padding: 1rem;
+  width: 100%;
+  color: #eeeff5;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.swap-trade-confirm-button:hover {
+  cursor: pointer;
+  background-color: #eeeff5;
+  color: #414770;
+}
+
+.swap-trade-confirm-button.invalid {
+  opacity: 50%;
+  background-color: #372248;
+  color: #c0d0de;
+}
+
+.swap-trade-confirm-invalid {
+  background-color: transparent;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.swap-trade-invalid-text {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #F46036;
+  font-weight: 700;
+}
+
+.swap-wallet {
+  border-radius: 0.5rem;
+  background-color: #fcd3c7;
+  color: #171123;
+  border: solid 2px #171123;
+  padding: 2rem 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 1rem;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  width: 95%;
+}
+
+.swap-wallet h3 {
+  margin: 0;
+  text-align: center;
+}
+
+.swap-wallet-coin {
+  border-radius: 0.5rem;
+  background-color: #eeeff5;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 1rem 0.5rem;
+  width: 100%;
+}
+
+.swap-wallet-coin-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.swap-wallet-coin-amount {
+  margin: 0;
+}
+
+.swap-wallet-coin-usd {
+  margin: 0;
+  font-weight: 700;
+}
+
 main {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -320,6 +535,7 @@ main {
       -ms-flex-pack: center;
           justify-content: center;
   gap: 2rem;
+  margin-bottom: 1rem;
 }
 
 .nav-buttons {
@@ -327,13 +543,26 @@ main {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  gap: 3rem;
+  gap: 1rem;
+}
+
+@media (min-width: 40em) {
+  .nav-buttons {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    gap: 3rem;
+  }
 }
 
 .nav-buttons button {

@@ -1,0 +1,179 @@
+.swap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+
+    width: 95%;
+    max-width: 800px;
+
+    @include breakpoint-up(large) {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    &-trade {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+        width: 95%;
+        flex: 1.5;
+
+        .swap-select {
+            width: 100%;
+            color: $xiketic;
+            z-index: 2;
+        }
+        &-sell{
+            .swap-select{
+                z-index: 3;
+            }
+        }
+
+        &-sell,
+        &-buy {
+            width: 100%;
+            border-radius: 0.5rem;
+            background-color: $lighter-steel-blue;
+            color: $xiketic;
+            border: solid 2px $steel-blue;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+
+            padding: 1rem 0.5rem;
+
+            h2 {
+                margin: 0;
+            }
+
+            input {
+                width: 100%;
+                background-color: $lighter-purple-navy;
+                color: $xiketic;
+                border: none;
+                border-radius: 0.5rem;
+                padding: 0.5rem;
+            }
+
+            h3 {
+                margin: 0;
+            }
+
+            p {
+                margin: 0;
+                font-size: 0.9rem;
+            }
+        }
+
+        &-confirm {
+
+            position: relative;
+            width: 200px;
+
+            &-button {
+                border-radius: 0.5rem;
+                border: solid 2px $russian-violet;
+                background-color: $purple-navy;
+
+                padding: 1rem;
+                width: 100%;
+
+                color: $lighter-purple-navy;
+                font-weight: 700;
+                font-size: 1.3rem;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: $lighter-purple-navy;
+                    color: $purple-navy;
+                }
+
+                // custom style for the button
+                &.invalid{
+                    opacity: 50%;
+                    background-color: $russian-violet;
+                    color: $lighter-steel-blue;
+                }
+            }
+
+            // invalid transparent element above the button
+            &-invalid {
+                background-color: transparent;
+                position: absolute;
+                z-index: 1;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+        }
+
+        // warning texts about invalid transactions
+        &-invalid-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: $portland-orange;
+            font-weight: 700;
+        }
+    }
+
+    &-wallet {
+        border-radius: 0.5rem;
+        background-color: $lighter-portland-orange;
+        color: $xiketic;
+        border: solid 2px $xiketic;
+
+        padding: 2rem 0.5rem;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+        flex: 1;
+        width: 95%;
+
+        h3 {
+            margin: 0;
+            text-align: center;
+        }
+
+        &-coin {
+            border-radius: 0.5rem;
+            background-color: $lighter-purple-navy;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            text-align: center;
+
+            padding: 1rem 0.5rem;
+            width: 100%;
+
+            &-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            &-amount {
+                margin: 0;
+            }
+
+            &-usd {
+                margin: 0;
+                font-weight: 700;
+            }
+        }
+    }
+}

@@ -3,8 +3,9 @@ import { Route, Routes } from 'react-router-dom'
 import { nanoid } from 'nanoid'
 
 import Navbar from './components/Navbar'
-import Crypto from './components/Crypto'
+import CryptoChart from './components/CryptoChart'
 import Wallet from './components/Wallet'
+import Swap from './components/Swap'
 
 function App() {
 
@@ -12,25 +13,57 @@ function App() {
   const [crypto, setCrypto] = React.useState([{}])
 
   // state to handle the wallet
-  const [wallet, setWallet] = React.useState([
-    {
-      name: "Bitcoin",
-      symbol: "BTC",
-      icon: "https://static.coinstats.app/coins/Bitcoin6l39t.png",
-      id: "bitcoin",
-      amount: "1.46"
-    },
+  const [wallet, setWallet] = React.useState({
+    "usd-coin": {
+      name: "USD Coin",
+      symbol: "USDC",
+      icon: "https://static.coinstats.app/coins/usd-coiniGm.png",
+      id: "usd-coin",
+      amount: 52721.24
+    }
+  })
 
-    {
-      name: "Ethereum",
-      symbol: "ETH",
-      icon: "https://static.coinstats.app/coins/EthereumOCjgD.png",
-      id: "ethereum",
-      amount: "0.97"
+  // function to calculate the portfolio's value
+  function valuePortfolio(wallet, crypto) {
+    if (crypto[0].name === undefined) {
+      return 0
+    }
+    else if (!wallet) {
+      return 0
     }
 
-  ])
-  //console.log(crypto)
+    let portfolio = 0
+
+    Object.keys(wallet).map(key => {
+      return crypto.map(item => {
+        return (item.id === wallet[key].id) ?
+          portfolio += (item.price * wallet[key].amount) : portfolio += 0
+      })
+    })
+
+    return portfolio.toFixed(4)
+  }
+
+  // function to calculate the value of any amount of an individual crypto
+  function valueIndividualCoin(id, amountCrypto, amountUSD, crypto) {
+    if (crypto[0].name === undefined) {
+      return 0
+    }
+    else if (amountUSD === 0) {
+      // Gathers the price of the "id" (bitcoin, ethereum, etc)
+      let currentCoinPrice = crypto.filter(item => item.id === id)[0].price
+      // Returns how many dollars the amount of "id" crypto is worth
+      return currentCoinPrice * amountCrypto
+    }
+    else if (amountCrypto === 0) {
+      // Gathers the price of the "id" (bitcoin, ethereum, etc)
+      let currentCoinPrice = crypto.filter(item => item.id === id)[0].price
+      // Returns how many "id" crypto can be bought
+      return amountUSD / currentCoinPrice
+    }
+
+
+  }
 
   // function to convert big numbers into shorter strings
   function abbreviateNumber(num, fixed) {
@@ -52,6 +85,7 @@ function App() {
       .then(data => setCrypto(data.coins.map(item => {
         return {
           name: item.name,
+          id: item.id,
           icon: item.icon,
           symbol: item.symbol,
           rank: item.rank,
@@ -64,34 +98,61 @@ function App() {
           priceChange1h: item.priceChange1h,
           priceChange1d: item.priceChange1d,
           priceChange1w: item.priceChange1w,
-          id: item.id,
           key: nanoid()
         }
       })))
 
   }, [])
 
+  // function to update the wallet state after each transaction
+  function handleWallet(
+    sellId,
+    buyId,
+    buyName,
+    buyIcon,
+    buySymbol,
+    sellAmount,
+    buyAmount,
+    availableFunds
+  ) {
+  
+    if (
+      sellId !== "" &&
+      buyId !== "" &&
+      sellId !== buyId &&
+      availableFunds === true
+    ) {
 
+      let currentWallet = { ...wallet }
 
-  const cryptocurrencies = crypto.map(coin => {
-    return (
-      <Crypto
-        name={coin.name}
-        icon={coin.icon}
-        symbol={coin.symbol}
-        rank={coin.rank}
-        price={coin.price}
-        priceBtc={coin.priceBtc}
-        marketCap={coin.marketCap}
-        availableSupply={coin.availableSupply}
-        totalSupply={coin.totalSupply}
-        volume={coin.volume}
-        priceChange1h={coin.priceChange1h}
-        priceChange1d={coin.priceChange1d}
-        priceChange1w={coin.priceChange1w}
-      />
-    )
-  })
+      // subtracts the crypto sold 
+      currentWallet[sellId].amount-=sellAmount
+
+      // adds the bought crypto to the wallet
+      // if the coin is a new asset
+      if(currentWallet[buyId] === undefined) {
+        Object.assign(currentWallet, {
+          [buyId]: {
+            name: buyName,
+            symbol: buySymbol,
+            icon: buyIcon,
+            id: buyId,
+            amount: buyAmount
+          }
+        })
+  
+        setWallet(currentWallet)
+      }
+      // if the asset already exists
+      else{
+        currentWallet[buyId].amount+=buyAmount
+        setWallet(currentWallet)
+      }
+    }
+    else {
+      alert("Invalid transaction")
+    }
+  }
 
   return (
     <main>
@@ -101,23 +162,9 @@ function App() {
       <Routes>
 
         <Route path="/" element={
-          <section className="coins">
-
-            <p className="coins-instructions">Select an asset to display more details.</p>
-
-            <div className="tableHeader">
-              <p className="tableHeader-rank hide-for-mobile">Rank</p>
-
-              <p className="tableHeader-name">Assets</p>
-
-              <p className="tableHeader-mcap">Market Cap</p>
-
-              <p className="tableHeader-price">Price</p>
-            </div>
-
-            {cryptocurrencies}
-
-          </section>
+          <CryptoChart
+            crypto={crypto}
+          />
         }
         />
 
@@ -125,6 +172,19 @@ function App() {
           <Wallet
             crypto={crypto}
             wallet={wallet}
+            valuePortfolio={valuePortfolio}
+            valueIndividualCoin={valueIndividualCoin}
+          />
+        }
+        />
+
+        <Route path="/swap" element={
+          <Swap
+            crypto={crypto}
+            wallet={wallet}
+            valuePortfolio={valuePortfolio}
+            valueIndividualCoin={valueIndividualCoin}
+            handleWallet={handleWallet}
           />
         }
         />
