@@ -6,7 +6,7 @@
 @import "wallet";
 @import "swap";
 
-main{
+main {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,7 +15,7 @@ main{
     margin-bottom: 1rem;
 }
 
-.nav-buttons{
+.nav-buttons {
 
     padding: 2rem 0 0 0;
 
@@ -25,12 +25,12 @@ main{
     align-items: center;
     gap: 1rem;
 
-    @include breakpoint-up(medium){
+    @include breakpoint-up(medium) {
         flex-direction: row;
         gap: 3rem;
     }
 
-    button{
+    button {
         font-family: 'JetBrains Mono', monospace;
         border: none;
         border-bottom: 3px solid transparent;
@@ -42,19 +42,53 @@ main{
 
         padding: 0;
 
-        @include breakpoint-up(large){
+        @include breakpoint-up(large) {
             font-size: 1.2rem;
         }
 
-        &.selected{
+        &.selected {
             color: $portland-orange;
             border-bottom: 3px solid $portland-orange;
         }
 
-        &:hover:not(.selected){
+        &:hover:not(.selected) {
             cursor: pointer;
             color: $steel-blue;
             border-bottom: 3px solid $steel-blue;
         }
+    }
+}
+
+.spinner {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+
+    &::after {
+        content: ' ';
+        display: block;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border-radius: 50%;
+        border: 6px solid $portland-orange;
+        border-color: $portland-orange transparent $portland-orange transparent;
+        animation: spinner 1.2s linear infinite;
+    }
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }

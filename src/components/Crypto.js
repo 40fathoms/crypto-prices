@@ -2,17 +2,15 @@ import React from 'react'
 
 const Crypto = (props) => {
 
-    const [coinDetails, setCoinDetails] = React.useState("")
+    const [coinDetails, setCoinDetails] = React.useState(false)
 
     function handleDetails() {
-        (coinDetails.match(/details-visible/) === null) ?
-            setCoinDetails("details-visible") :
-            setCoinDetails("")
+        setCoinDetails(previous => !previous)
     }
 
     return (
         <div
-            className={`coin ${coinDetails}`}
+            className={`coin ${coinDetails ? "details-visible" : ""}`}
             onClick={handleDetails}
         >
 
@@ -28,7 +26,7 @@ const Crypto = (props) => {
                 <p className="coin-content-price">${props.price}</p>
             </div>
 
-            <div className={`coin-details ${coinDetails}`}>
+            <div className={`coin-details ${coinDetails ? "details-visible" : ""}`}>
                 <ul>
                     <li>Price Change (1h):
                         <span

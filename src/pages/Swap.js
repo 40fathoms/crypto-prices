@@ -1,52 +1,11 @@
 import React from 'react'
-import Select, { components } from 'react-select'
+import { nanoid } from 'nanoid'
+import Select from 'react-select'
+
+import LoadingSpinner from '../components/LoadingSpinner'
+import SwapPortfolio from '../components/SwapPortfolio'
 
 const Swap = (props) => {
-
-    // generating each crypto element in the wallet
-    const walletKeys = Object.keys(props.wallet)
-    const swapWalletCoins = walletKeys.map(key => {
-        return (
-            <div className="swap-wallet-coin">
-                <img className="swap-wallet-coin-icon" src={props.wallet[key].icon} alt="" />
-                <p className="swap-wallet-coin-amount">{props.wallet[key].amount} {props.wallet[key].symbol}</p>
-                <p className="swap-wallet-coin-usd">
-                    ${props.valueIndividualCoin(props.wallet[key].id, props.wallet[key].amount, 0, props.crypto).toFixed(4)}
-                </p>
-            </div>
-        )
-    })
-
-
-
-    //console.log(props.wallet)
-
-
-
-    /*props.wallet.map(item => {
-        return (
-            <div className="wallet-coin">
-                <img className="wallet-coin-icon" src={item.icon} alt="" />
-                <p className="wallet-coin-amount">{item.amount} {item.name}</p>
-                <p className="wallet-coin-usd">
-                    ${props.valueIndividualCoin(item.id, item.amount, 0, props.crypto)}
-                </p>
-            </div>
-        )
-    })*/
-
-
-    // generating the options menu on <Select />
-    const cryptoOptions = []
-    props.crypto.map(item => {
-        cryptoOptions.push({
-            label: item.name,
-            id: item.id,
-            value: item.price,
-            icon: item.icon,
-            symbol: item.symbol
-        })
-    })
 
     // state that handles the crypto the user will sell and buy
     const [trade, setTrade] = React.useState({
@@ -60,6 +19,26 @@ const Swap = (props) => {
         buySymbol: "",
         buyPrice: "",
     })
+
+    if (props.crypto === null) {
+        return <LoadingSpinner />
+    }
+
+
+
+    // generating the options menu on <Select />
+    const cryptoOptions = []
+    props.crypto.forEach(item => {
+        cryptoOptions.push({
+            label: item.name,
+            id: item.id,
+            value: item.price,
+            icon: item.icon,
+            symbol: item.symbol
+        })
+    })
+
+
 
     //console.log(trade)
 
@@ -95,6 +74,15 @@ const Swap = (props) => {
             return {
                 ...prevTrade,
                 sellAmount: e.target.value,
+            }
+        })
+    }
+
+    function resetSellId(e) {
+        setTrade(prevTrade => {
+            return {
+                ...prevTrade,
+                sellAmount: 0,
             }
         })
     }
@@ -155,6 +143,7 @@ const Swap = (props) => {
                         placeholder="0"
                         pattern="[0-9]"
                         inputMode="numeric"
+                        value={trade.sellAmount}
                         onChange={(e) => { handleTradeUSD(e); handleAvailableFunds(trade.sellId, trade.sellAmount) }}
                     />
 
@@ -207,16 +196,20 @@ const Swap = (props) => {
                             'invalid' : 'valid'
                             }`}
 
-                        onClick={(e) => props.handleWallet(
-                            trade.sellId,
-                            trade.buyId,
-                            trade.buyName,
-                            trade.buyIcon,
-                            trade.buySymbol,
-                            trade.sellAmount,
-                            buyAmount(),
-                            handleAvailableFunds()
-                        )}
+                        onClick={(e) => {
+                            props.handleWallet(
+                                trade.sellId,
+                                trade.buyId,
+                                trade.buyName,
+                                trade.buyIcon,
+                                trade.buySymbol,
+                                trade.sellAmount,
+                                buyAmount(),
+                                handleAvailableFunds()
+                            );
+
+                            resetSellId(e)
+                        }}
                     >SWAP</button>
 
                 </div>
@@ -237,11 +230,10 @@ const Swap = (props) => {
 
             </div>
 
-            {/* portfolio */}
-            <div className="swap-wallet">
-                <h3>Portfolio value: ${props.valuePortfolio(props.wallet, props.crypto)}</h3>
-                {swapWalletCoins}
-            </div>
+            <SwapPortfolio
+                crypto={props.crypto}
+                wallet={props.wallet}
+            />
 
         </section>
     )
