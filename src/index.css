@@ -446,6 +446,11 @@ p {
   right: 0;
 }
 
+.swap-trade-confirm-loading {
+  position: relative;
+  height: 60px;
+}
+
 .swap-trade-invalid-text {
   text-align: center;
   font-size: 0.9rem;
@@ -454,6 +459,7 @@ p {
 }
 
 .swap-wallet {
+  position: relative;
   border-radius: 0.5rem;
   background-color: #fcd3c7;
   color: #171123;
@@ -477,6 +483,7 @@ p {
       -ms-flex: 1;
           flex: 1;
   width: 95%;
+  min-height: 150px;
 }
 
 .swap-wallet h3 {

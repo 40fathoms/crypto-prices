@@ -1,9 +1,14 @@
 import React from 'react'
 import { nanoid } from 'nanoid'
-import Select from 'react-select'
 
 import LoadingSpinner from '../components/LoadingSpinner'
 import SwapPortfolio from '../components/SwapPortfolio'
+
+import { valueIndividualCoin } from '../lib/helperFunctions'
+import SwapWarnings from '../components/SwapWarnings'
+import SwapConfirm from '../components/SwapConfirm'
+import SwapSell from '../components/SwapSell'
+import SwapBuy from '../components/SwapBuy'
 
 const Swap = (props) => {
 
@@ -11,7 +16,7 @@ const Swap = (props) => {
     const [trade, setTrade] = React.useState({
         sellId: "",
         sellPrice: "",
-        sellAmount: 0,
+        sellAmount: "",
 
         buyId: "",
         buyName: "",
@@ -19,16 +24,31 @@ const Swap = (props) => {
         buySymbol: "",
         buyPrice: "",
     })
-
-    if (props.crypto === null) {
+    
+    if (props.crypto === null || props.wallet === null) {
         return <LoadingSpinner />
     }
 
 
+    // creating an array with the wallet assets ids
+    const walletIds = []
+    props.wallet.forEach(item => walletIds.push(item.id))
 
     // generating the options menu on <Select />
+    const walletOptions = []
     const cryptoOptions = []
     props.crypto.forEach(item => {
+
+        if (walletIds.includes(item.id)) {
+            walletOptions.push({
+                label: item.name,
+                id: item.id,
+                value: item.price,
+                icon: item.icon,
+                symbol: item.symbol
+            })
+        }
+
         cryptoOptions.push({
             label: item.name,
             id: item.id,
@@ -39,9 +59,6 @@ const Swap = (props) => {
     })
 
 
-
-    //console.log(trade)
-
     // function that changes the crypto the user will sell
     function handleSell(e) {
         setTrade(prevTrade => {
@@ -49,7 +66,7 @@ const Swap = (props) => {
                 ...prevTrade,
                 sellId: e.id,
                 sellPrice: e.value,
-                sellAmount: 0,
+                sellAmount: "",
             }
         })
     }
@@ -82,24 +99,27 @@ const Swap = (props) => {
         setTrade(prevTrade => {
             return {
                 ...prevTrade,
-                sellAmount: 0,
+                sellAmount: "",
             }
         })
     }
 
+    // find the wallet index corresponding to sellId
+    let walletIndex = props.wallet.findIndex(
+        item => item.id === trade.sellId
+    )
     // function that checks if the user has available funds
     function handleAvailableFunds() {
-        if (props.wallet[trade.sellId]) {
-            return parseFloat(trade.sellAmount) > parseFloat(props.wallet[trade.sellId].amount) ?
+        if (props.wallet[walletIndex]) {
+            return parseFloat(trade.sellAmount) > parseFloat(props.wallet[walletIndex].amount) ?
                 false : true
         }
     }
 
-
     // function to calculate how much USD worth of crypto the user are selling
     function sellAmountUSD() {
         return (trade.sellId) ?
-            props.valueIndividualCoin(trade.sellId, trade.sellAmount, 0, props.crypto)
+            valueIndividualCoin(trade.sellId, trade.sellAmount, 0, props.crypto)
             :
             0
     }
@@ -108,7 +128,7 @@ const Swap = (props) => {
     // 0.5% transaction fee is calculated here
     function buyAmount() {
         return (trade.buyId) ?
-            props.valueIndividualCoin(trade.buyId, 0, sellAmountUSD(), props.crypto) * 0.995
+            valueIndividualCoin(trade.buyId, 0, sellAmountUSD(), props.crypto) * 0.995
             :
             0
     }
@@ -116,123 +136,55 @@ const Swap = (props) => {
     // function to calculate how much USD the user will receive after transaction fees
     function buyAmountUSD() {
         return (trade.buyId) ?
-            props.valueIndividualCoin(trade.buyId, buyAmount(), 0, props.crypto)
+            valueIndividualCoin(trade.buyId, buyAmount(), 0, props.crypto)
             :
             0
     }
+
 
     return (
         <section className="swap">
 
             <div className="swap-trade">
 
-                <div className="swap-trade-sell">
+                <SwapSell
+                    walletOptions={walletOptions}
+                    trade={trade}
+                    handleSell={handleSell}
+                    handleTradeUSD={handleTradeUSD}
+                    handleAvailableFunds={handleAvailableFunds}
+                    sellAmountUSD={sellAmountUSD}
+                />
 
-                    <h2>Sell</h2>
+                <SwapBuy
+                    cryptoOptions={cryptoOptions}
+                    handleBuy={handleBuy}
+                    buyAmount={buyAmount}
+                    buyAmountUSD={buyAmountUSD}
+                />
 
-                    <Select
-                        options={cryptoOptions}
-                        placeholder={"Sell Crypto"}
-                        onChange={(e) => handleSell(e)}
-                        className="swap-select"
-                    />
-
-                    <input
-                        type="number"
-                        min="0"
-                        placeholder="0"
-                        pattern="[0-9]"
-                        inputMode="numeric"
-                        value={trade.sellAmount}
-                        onChange={(e) => { handleTradeUSD(e); handleAvailableFunds(trade.sellId, trade.sellAmount) }}
-                    />
-
-                    <h3>$ {sellAmountUSD().toFixed(4)}</h3>
-
-                </div>
-
-                <div className="swap-trade-buy">
-
-                    <h2>Buy</h2>
-                    <Select
-                        options={cryptoOptions}
-                        placeholder={"Buy Crypto"}
-                        onChange={(e) => handleBuy(e)}
-                        className="swap-select"
-                    />
-
-                    <input
-                        type="number"
-                        value={buyAmount()}
-                        readOnly
-                    />
-
-                    <h3>$ {buyAmountUSD().toFixed(4)}</h3>
-                    <p>0.5% transaction fees</p>
-
-                </div>
-
-                <div className="swap-trade-confirm">
-
-                    {/* Invisible element that covers the button when
-                    transactions are invalid */}
-                    {
-                        (trade.sellId === trade.buyId ||
-                            trade.sellId === "" ||
-                            trade.buyId === "" ||
-                            !handleAvailableFunds()) &&
-
-                        <div className="swap-trade-confirm-invalid"></div>
-                    }
-
-                    {/* conditional rendering on the button's class
-                    changing if the transaction is invalid */}
-                    <button
-                        className={`swap-trade-confirm-button ${(trade.sellId === trade.buyId ||
-                            trade.sellId === "" ||
-                            trade.buyId === "" ||
-                            !handleAvailableFunds()) ?
-
-                            'invalid' : 'valid'
-                            }`}
-
-                        onClick={(e) => {
-                            props.handleWallet(
-                                trade.sellId,
-                                trade.buyId,
-                                trade.buyName,
-                                trade.buyIcon,
-                                trade.buySymbol,
-                                trade.sellAmount,
-                                buyAmount(),
-                                handleAvailableFunds()
-                            );
-
-                            resetSellId(e)
-                        }}
-                    >SWAP</button>
-
-                </div>
+                <SwapConfirm
+                    wallet={props.wallet}
+                    trade={trade}
+                    buyAmount={buyAmount}
+                    resetSellId={resetSellId}
+                    handleAvailableFunds={handleAvailableFunds}
+                    sendRequestWallet={props.sendRequestWallet}
+                />
 
                 {/* warning texts about invalid transactions */}
-                {
-                    trade.sellId === trade.buyId &&
-                    trade.sellId !== "" &&
-                    trade.buyId !== "" &&
-                    <p className='swap-trade-invalid-text'>Please select different coins</p>
-                }
-                {
-                    !handleAvailableFunds() &&
-                    trade.sellId !== "" &&
-                    trade.buyId !== "" &&
-                    <p className='swap-trade-invalid-text'>Insufficient balance</p>
-                }
+                <SwapWarnings
+                    trade={trade}
+                    handleAvailableFunds={handleAvailableFunds}
+                />
 
             </div>
 
             <SwapPortfolio
                 crypto={props.crypto}
                 wallet={props.wallet}
+                statusWallet={props.statusWallet}
+                errorWallet={props.errorWallet}
             />
 
         </section>

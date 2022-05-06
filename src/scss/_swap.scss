@@ -28,8 +28,9 @@
             color: $xiketic;
             z-index: 2;
         }
-        &-sell{
-            .swap-select{
+
+        &-sell {
+            .swap-select {
                 z-index: 3;
             }
         }
@@ -97,7 +98,7 @@
                 }
 
                 // custom style for the button
-                &.invalid{
+                &.invalid {
                     opacity: 50%;
                     background-color: $russian-violet;
                     color: $lighter-steel-blue;
@@ -114,6 +115,11 @@
                 left: 0;
                 right: 0;
             }
+
+            &-loading {
+                position: relative;
+                height: 60px;
+            }
         }
 
         // warning texts about invalid transactions
@@ -126,6 +132,7 @@
     }
 
     &-wallet {
+        position: relative;
         border-radius: 0.5rem;
         background-color: $lighter-portland-orange;
         color: $xiketic;
@@ -141,6 +148,7 @@
 
         flex: 1;
         width: 95%;
+        min-height: 150px;
 
         h3 {
             margin: 0;

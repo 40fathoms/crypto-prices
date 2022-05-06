@@ -3,11 +3,12 @@ import { abbreviateNumber } from './helperFunctions'
 export async function getAllCrypto() {
 
     const response = await fetch(`https://api.coinstats.app/public/v1/coins?skip=0&limit=50`)
-    const data = await response.json()
 
     if (!response.ok) {
         throw new Error(data.message || "Could not fetch data")
     }
+
+    const data = await response.json()
 
     const allCrypto = []
 
@@ -31,4 +32,47 @@ export async function getAllCrypto() {
     })
 
     return allCrypto
+}
+
+
+export async function getWallet() {
+    const response = await fetch(`https://crypto-app-ac377-default-rtdb.firebaseio.com/wallet.json`)
+
+    if (!response.ok) {
+        throw new Error(data.message || "Could not fetch data")
+    }
+
+    const data = await response.json()
+
+    let walletData = []
+
+    for (const key in data) {
+        walletData.push({
+            name: data[key].name,
+            symbol: data[key].symbol,
+            icon: data[key].icon,
+            id: data[key].id,
+            amount: data[key].amount
+        })
+    }
+
+    return walletData
+}
+
+export async function updateWallet(walletData) {
+
+    const response = await fetch(`https://crypto-app-ac377-default-rtdb.firebaseio.com/wallet.json`, {
+        method: 'PUT',
+        body: JSON.stringify(walletData),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+
+    if (!response.ok) {
+        throw new Error(data.message || "Could not fetch data")
+    }
+
+    const data = await response.json()
+
 }

@@ -8,81 +8,22 @@ import Wallet from './pages/Wallet'
 import Swap from './pages/Swap'
 
 import useHttp from './hooks/useHttp'
-import { getAllCrypto } from './lib/api'
+import { getAllCrypto, getWallet } from './lib/api'
 
 function App() {
 
-  // state to handle the wallet
-  const [wallet, setWallet] = React.useState({
-    "usd-coin": {
-      name: "USD Coin",
-      symbol: "USDC",
-      icon: "https://static.coinstats.app/coins/usd-coiniGm.png",
-      id: "usd-coin",
-      amount: 52721.24
-    }
-  })
+
 
   // state to fetch the current crypto chart
   const { sendRequest: sendRequestCrypto, data: crypto, status: statusCrypto, error: errorCrypto} = useHttp(getAllCrypto)
   
+  // state to fetch the wallet data from the backend
+  const { sendRequest: sendRequestWallet, data: wallet, status: statusWallet, error: errorWallet} = useHttp(getWallet)
+
   React.useEffect(()=>{
     sendRequestCrypto()
+    sendRequestWallet()
   },[sendRequestCrypto])
-
-
-
-
-
-  // function to update the wallet state after each transaction
-  function handleWallet(
-    sellId,
-    buyId,
-    buyName,
-    buyIcon,
-    buySymbol,
-    sellAmount,
-    buyAmount,
-    availableFunds
-  ) {
-  
-    if (
-      sellId !== "" &&
-      buyId !== "" &&
-      sellId !== buyId &&
-      availableFunds === true
-    ) {
-
-      let currentWallet = { ...wallet }
-
-      // subtracts the crypto sold 
-      currentWallet[sellId].amount-=sellAmount
-
-      // adds the bought crypto to the wallet
-      // if the coin is a new asset
-      if(currentWallet[buyId] === undefined) {
-        Object.assign(currentWallet, {
-          [buyId]: {
-            name: buyName,
-            symbol: buySymbol,
-            icon: buyIcon,
-            id: buyId,
-            amount: buyAmount
-          }
-        })
-  
-        setWallet(currentWallet)
-      }
-      // if the asset already exists
-      else{
-        currentWallet[buyId].amount+=buyAmount
-        setWallet(currentWallet)
-      }
-    }
-    else {
-      alert("Invalid transaction")
-    }
-  }
 
   return (
     <main>
@@ -95,7 +36,7 @@ function App() {
           <CryptoChart
             crypto={crypto}
             statusCrypto={statusCrypto}
-            error={errorCrypto}
+            errorCrypto={errorCrypto}
           />
         }
         />
@@ -104,6 +45,8 @@ function App() {
           <Wallet
             crypto={crypto}
             wallet={wallet}
+            statusWallet={statusWallet}
+            errorWallet={errorWallet}
           />
         }
         />
@@ -112,7 +55,9 @@ function App() {
           <Swap
             crypto={crypto}
             wallet={wallet}
-            handleWallet={handleWallet}
+            statusWallet={statusWallet}
+            errorWallet={errorWallet}
+            sendRequestWallet={sendRequestWallet}
           />
         }
         />

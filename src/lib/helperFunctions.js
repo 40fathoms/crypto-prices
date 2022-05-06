@@ -33,6 +33,7 @@ export function valuePortfolio(wallet, crypto) {
 }
 
 // function to calculate the value of any amount of an individual crypto
+// either amountCrypto or amountUSD must be set to zero. 
 export function valueIndividualCoin(id, amountCrypto, amountUSD, crypto) {
     if (crypto[0].name === undefined) {
         return 0

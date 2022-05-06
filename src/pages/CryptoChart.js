@@ -37,9 +37,9 @@ const CryptoChart = (props) => {
     )
   }
 
-  if (props.error) {
+  if (props.errorCrypto) {
     return (
-      <p>{props.error}</p>
+      <p>{props.errorCrypto}</p>
     )
   }
 

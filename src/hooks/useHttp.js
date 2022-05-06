@@ -10,7 +10,7 @@ const httpReducer = (state, action) => {
 
     if (action.type === 'SEND') {
         return {
-            data: null,
+            data: state.data,
             status: 'loading',
             error: null
         }
